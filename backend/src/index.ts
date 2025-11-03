@@ -47,7 +47,10 @@ app.get('/api/health', (_req, res) => {
 // Global error handler
 app.use(errorHandler);
 
-const PORT = Number(process.env.PORT ?? 4001);
-app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}`));
+// داخل backend/src/index.ts
+const PORT = Number(process.env.PORT || 4000);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on :${PORT}`);
+});
 
 

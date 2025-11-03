@@ -4,5 +4,5 @@
 
 [services.backend]
 root = "backend"
-start = "npx prisma migrate deploy && node dist/index.js"
 build = "npm ci && npm run build"
+start = "npx prisma migrate deploy && node dist/index.js"
