@@ -1,0 +1,34 @@
+<header class="appbar" role="banner">
+  <div class="left">
+    <!-- زر إظهار/إخفاء الشريط الجانبي -->
+    <button class="hamburger" type="button" (click)="toggle.emit()" aria-label="Toggle sidebar">☰</button>
+
+    <a class="brand" routerLink="/analytics" aria-label="TableWise home">
+      <span class="logo">📊</span>
+      <span class="title">TableWise</span>
+    </a>
+  </div>
+
+  <!-- عندما المستخدم مسجل دخول -->
+  <div class="right" *ngIf="isAuthed; else authLinks">
+    <button class="icon-btn" routerLink="/settings" title="Settings">⚙️</button>
+
+    <span class="user">
+      <span class="avatar">{{ initials }}</span>
+      <span class="meta">
+        <span class="name">Hi, {{ userName }}</span>
+        <span class="email">{{ userEmail }}</span>
+      </span>
+    </span>
+
+    <button class="btn" type="button" (click)="logout()">Logout</button>
+  </div>
+
+  <!-- روابط الدخول/التسجيل -->
+  <ng-template #authLinks>
+    <div class="right">
+      <a class="btn" routerLink="/login">Login</a>
+      <a class="btn outline" routerLink="/register">Register</a>
+    </div>
+  </ng-template>
+</header>

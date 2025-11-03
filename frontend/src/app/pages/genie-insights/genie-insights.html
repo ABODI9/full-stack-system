@@ -1,0 +1,30 @@
+<div class="genie">
+  <div class="head">
+    <h2>🧠 Genie Insights</h2>
+    <p>Automatically surfaced insights from your sales, customers, and platforms.</p>
+  </div>
+
+  <div *ngIf="loading()" class="skeleton-grid">
+    <div class="card sk" *ngFor="let i of [0,1,2,3,4,5]"></div>
+  </div>
+
+  <div *ngIf="!loading() && !error()" class="grid">
+    <div class="card" *ngFor="let it of insights()">
+      <div class="pill" [class.h]="it.severity==='high'" [class.m]="it.severity==='med'">
+        {{ it.kind | titlecase }}
+      </div>
+      <h3>{{ it.title }}</h3>
+      <p class="detail">{{ it.detail }}</p>
+      <div class="tags" *ngIf="it.tags?.length">
+        <span *ngFor="let t of it.tags">{{ t }}</span>
+      </div>
+      <div class="actions">
+        <button class="btn" (click)="openAI(it.ask || 'give me insights summary')">Ask AI</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="error()" class="error card">
+    {{ error() }}
+  </div>
+</div>

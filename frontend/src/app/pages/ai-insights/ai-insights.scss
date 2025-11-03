@@ -1,0 +1,19 @@
+.ai-head {
+  display: flex; align-items: center; gap: 12px;
+  .mode { margin-left: auto; display:flex; align-items:center; gap:8px; }
+  .toggle { padding: 6px 10px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; cursor: pointer; }
+  .badge { padding: 4px 8px; border-radius: 999px; font-weight: 700; font-size: 12px; }
+  .badge.live { background:#e0f2fe; color:#0369a1; }
+  .badge.local { background:#f3f4f6; color:#374151; }
+}
+
+.chat.card { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:12px; }
+.msgs { display:flex; flex-direction:column; gap:10px; max-height: 55vh; overflow:auto; }
+.msg .bubble { background:#f3f8ff; border-radius:12px; padding:10px; }
+.msg.you .bubble { background:#eef2ff; }
+.msg .who { font-size:12px; font-weight:700; color:#64748b; margin-bottom:4px; }
+.msg .text { margin:0; white-space:pre-wrap; font-family: ui-sans-serif, system-ui; }
+.composer { display:flex; gap:8px; margin-top:10px; }
+.input { flex:1; padding:10px; border:1px solid #e5e7eb; border-radius:8px; }
+.btn { padding:10px 14px; background:#2563eb; color:#fff; border:0; border-radius:8px; cursor:pointer; }
+.btn:disabled { opacity:.6; cursor:default; }

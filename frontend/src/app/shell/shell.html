@@ -1,0 +1,53 @@
+<!-- Top app bar (existing header) -->
+<app-header (toggle)="toggle()"></app-header>
+
+<!-- Two-column layout: left sidebar + right content -->
+<div class="tw-layout" [class.collapsed]="collapsed()">
+  <!-- Sidebar -->
+  <aside class="tw-sidebar">
+    <button class="collapse-btn" (click)="toggle()">
+      <span class="icon">‹</span>
+    </button>
+
+    <div class="group-title">TableWise</div>
+
+    <nav class="menu">
+      <a routerLink="/analytics" routerLinkActive="active" [routerLinkActiveOptions]="{ exact:false }">
+        <span class="icon">📈</span>
+        <span class="label">Analytics</span>
+      </a>
+
+      <a routerLink="/ai-insights" routerLinkActive="active">
+        <span class="icon">✨</span>
+        <span class="label">AI</span>
+      </a>
+
+      <a routerLink="/genie-insights" routerLinkActive="active">
+        <span class="icon">🧠</span>
+        <span class="label">Genie Insights</span>
+      </a>
+
+      <a routerLink="/costs" routerLinkActive="active">
+        <span class="icon">📄</span>
+        <span class="label">Costs</span>
+      </a>
+
+      <a routerLink="/data-entry" routerLinkActive="active">
+        <span class="icon">📊</span>
+        <span class="label">Data Entry</span>
+      </a>
+
+      <a routerLink="/settings" routerLinkActive="active">
+        <span class="icon">⚙️</span>
+        <span class="label">Settings</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Content -->
+  <main class="tw-content">
+    <div class="content-card">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

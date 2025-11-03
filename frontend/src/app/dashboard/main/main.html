@@ -1,0 +1,29 @@
+<div class="cards">
+  <div class="card">
+    <div>Toplam</div>
+    <div class="big">₺{{sum | number:'1.0-0'}}</div>
+  </div>
+  <div class="card">
+    <div>Ortalama</div>
+    <div class="big">₺{{avg | number:'1.0-0'}}</div>
+  </div>
+  <div class="card">
+    <div>Kategoriler</div>
+    <ul>
+      <li *ngFor="let c of byCategory">{{c.category}} — ₺{{c.value | number:'1.0-0'}}</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <h3>Series (by date)</h3>
+  <table class="table">
+    <thead><tr><th>Tarih</th><th>Değer</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let p of series">
+        <td>{{p.label}}</td>
+        <td>₺{{p.value | number:'1.0-0'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

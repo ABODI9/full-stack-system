@@ -1,0 +1,95 @@
+/* Layout container */
+.tw-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: calc(100vh - 64px); /* header height approx */
+  background: #f3f4f6;
+
+  &.collapsed {
+    grid-template-columns: 72px 1fr;
+    .tw-sidebar .label { display: none; }
+    .tw-sidebar .group-title { display: none; }
+    .collapse-btn .icon { transform: rotate(180deg); }
+  }
+}
+
+/* Sidebar */
+.tw-sidebar {
+  position: sticky; top: 64px;
+  height: calc(100vh - 64px);
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 12px 10px;
+  display: flex; flex-direction: column; gap: 8px;
+
+  .collapse-btn {
+    align-self: flex-end;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    border-radius: 8px;
+    padding: 4px 8px;
+    cursor: pointer;
+    .icon { display: inline-block; transition: transform .2s; }
+  }
+
+  .group-title {
+    margin: 6px 8px 2px;
+    font-weight: 700; color: #111827; letter-spacing: .2px;
+  }
+
+  .menu {
+    display: flex; flex-direction: column; gap: 6px; margin-top: 4px;
+  }
+
+  .menu a {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: #374151;
+    text-decoration: none;
+    transition: background .15s, color .15s;
+  }
+
+  .menu a:hover { background: #f3f4f6; color: #111827; }
+  .menu a.active {
+    background: #e8efff;
+    color: #1f4ed1;
+    font-weight: 600;
+    border: 1px solid #cfe0ff;
+  }
+
+  .icon { font-size: 18px; display: inline-grid; place-items: center; }
+  .label { white-space: nowrap; }
+}
+
+/* Main content */
+.tw-content {
+  padding: 16px 18px;
+}
+
+.content-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 22px rgba(0,0,0,.06);
+  padding: 16px;
+  min-height: calc(100vh - 96px);
+  overflow: hidden; /* so embedded iframes look framed */
+}
+
+/* Make embedded frames look nice */
+.content-card iframe {
+  width: 100%;
+  height: calc(100vh - 160px);
+  border: 0;
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .tw-layout { grid-template-columns: 72px 1fr; }
+  .tw-sidebar .label, .tw-sidebar .group-title { display: none; }
+}

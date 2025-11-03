@@ -1,0 +1,23 @@
+<div class="data-entry">
+  <h2>📂 Data Sheets</h2>
+  <p>Access or update your restaurant’s operational data directly from Google Sheets.</p>
+
+  <div class="grid">
+    <div class="card" *ngFor="let s of sheets">
+      <h3>{{ s.title }}</h3>
+      <p>{{ s.description }}</p>
+
+      <iframe
+        [src]="s.viewUrl | safeUrl"
+        width="100%"
+        height="320"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+
+      <a [href]="s.openUrl" target="_blank" rel="noopener" class="open-btn">
+        Open in Google Sheets ↗
+      </a>
+    </div>
+  </div>
+</div>

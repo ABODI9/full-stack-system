@@ -1,0 +1,73 @@
+<h2>Settings</h2>
+
+<div class="grid">
+  <!-- Profile -->
+  <div class="card">
+    <h3>Profile</h3>
+    <label>First name</label>
+    <input [(ngModel)]="profile.firstName" />
+    <label>Email</label>
+    <input [(ngModel)]="profile.email" />
+    <button (click)="saveProfile()">Save Profile</button>
+  </div>
+
+  <!-- Change password -->
+  <div class="card">
+    <h3>Change Password</h3>
+    <label>Current Password</label>
+    <input [(ngModel)]="pwd.current" type="password"/>
+    <label>New Password</label>
+    <input [(ngModel)]="pwd.next" type="password"/>
+    <label>Confirm New Password</label>
+    <input [(ngModel)]="pwd.confirm" type="password"/>
+    <button (click)="changePassword()">Change Password</button>
+  </div>
+
+  <!-- Account info -->
+  <div class="card">
+    <h3>Account Info</h3>
+    <p><b>Account Type:</b> {{ currentUser?.role || '—' }}</p>
+    <p><b>Registered:</b> {{ currentUser?.createdAt | date:'dd MMM y' }}</p>
+    <p><b>Last Login:</b> {{ now | date:'dd/MM/yyyy' }}</p>
+  </div>
+
+  <!-- Backend status -->
+  <div class="card">
+    <h3>Backend Connection</h3>
+    <p *ngIf="loading">Checking…</p>
+    <ng-container *ngIf="!loading && health">
+      <p><b>Status:</b> <span [class.ok]="health.status==='ok'" [class.err]="health.status!=='ok'">{{ health.status }}</span></p>
+      <p><b>API URL:</b> {{ health.apiUrl }}</p>
+      <p><b>Checked:</b> {{ health.checkedAt }}</p>
+      <p><b>Message:</b> {{ health.message }}</p>
+      <button (click)="checkBackend()">Re-check</button>
+    </ng-container>
+  </div>
+
+  <!-- Admin: Add User -->
+  <div class="card" *ngIf="isAdmin">
+    <h3>Add User (Admin)</h3>
+
+    <label>Name</label>
+    <input [(ngModel)]="newUser.name" placeholder="Optional" />
+
+    <label>Email</label>
+    <input [(ngModel)]="newUser.email" type="email" />
+
+    <label>Password</label>
+    <input [(ngModel)]="newUser.password" type="password" />
+
+    <label>Role</label>
+    <select [(ngModel)]="newUser.role">
+      <option value="manager">Store Manager</option>
+      <option value="admin">Admin</option>
+    </select>
+
+    <button (click)="createUser()" [disabled]="creating">Create User</button>
+    <div style="margin-top:8px"
+         [class.ok]="createMsg && !createMsg.startsWith('Failed') && !createMsg.startsWith('Email')"
+         [class.err]="createMsg && (createMsg.startsWith('Failed') || createMsg.startsWith('Email'))">
+      {{ createMsg }}
+    </div>
+  </div>
+</div>

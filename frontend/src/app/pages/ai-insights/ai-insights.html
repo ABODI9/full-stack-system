@@ -1,0 +1,37 @@
+<div class="ai-head">
+  <h2>AI Insights</h2>
+
+  <div class="mode">
+    <span class="badge" [class.live]="mode()==='live'" [class.local]="mode()==='local'">
+      {{ mode() === 'live' ? 'Live GPT' : 'Local Mode' }}
+    </span>
+    <button class="toggle" (click)="toggleMode()">
+      Switch to {{ mode() === 'live' ? 'Local' : 'Live GPT' }}
+    </button>
+  </div>
+</div>
+
+<p class="hint">Ask questions about your restaurant data.</p>
+
+<div class="chat card">
+  <div class="msgs">
+    <div *ngFor="let m of messages()" class="msg" [class.you]="m.who==='you'" [class.ai]="m.who==='ai'">
+      <div class="bubble">
+        <div class="who">{{ m.who === 'you' ? 'You' : 'AI' }}</div>
+        <pre class="text">{{ m.text }}</pre>
+      </div>
+    </div>
+  </div>
+
+  <form class="composer" (ngSubmit)="send()">
+    <input
+      class="input"
+      type="text"
+      placeholder="Type your question…"
+      name="q"
+      [ngModel]="input()"
+      (ngModelChange)="input.set($event)"
+    />
+    <button class="btn" [disabled]="sending()">Send</button>
+  </form>
+</div>

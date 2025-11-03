@@ -1,0 +1,100 @@
+<div class="topbar card">
+  <div class="left">
+    <span class="logo"></span>
+    <h2>Analytics</h2>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="today">{{ today() | date:'dd/MM/yyyy':'':'en-GB' }}</div>
+
+  <div class="range">
+    <button class="range-btn" type="button" (click)="togglePicker()">
+      {{ rangeLabel() }} ▾
+    </button>
+
+    <div class="picker" *ngIf="pickerOpen()">
+      <div class="presets">
+        <button (click)="setPreset('today')">Today</button>
+        <button (click)="setPreset('yesterday')">Yesterday</button>
+        <button (click)="setPreset('last7')">Last 7 days</button>
+        <button (click)="setPreset('last30')">Last 30 days</button>
+        <button (click)="setPreset('thisMonth')">This month</button>
+        <button (click)="setPreset('prevMonth')">Previous month</button>
+      </div>
+
+      <div class="custom-row">
+        <input type="date"
+               [ngModel]="customStart()"
+               (ngModelChange)="customStart.set($event)" />
+        <span>→</span>
+        <input type="date"
+               [ngModel]="customEnd()"
+               (ngModelChange)="customEnd.set($event)" />
+        <button class="apply" (click)="applyCustomRange()">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="kpis">
+  <div class="kpi" *ngFor="let k of kpis()" [style.--bg]="k.color">
+    <div class="kpi-title">{{ k.label | uppercase }}</div>
+    <div class="kpi-value">
+      <span class="currency">₺</span>{{ fmt(k.value) }}
+    </div>
+    <div class="kpi-delta" *ngIf="k.delta !== undefined">▲ {{ k.delta }}%</div>
+  </div>
+</div>
+
+<div class="card chart">
+  <svg [attr.viewBox]="'0 0 ' + width + ' ' + height" preserveAspectRatio="none">
+    <path [attr.d]="areaPath()" class="area"></path>
+    <path [attr.d]="linePath()" class="line"></path>
+    <line [attr.x1]="padding.l" [attr.y1]="height - padding.b"
+          [attr.x2]="width - padding.r" [attr.y2]="height - padding.b" class="axis"/>
+  </svg>
+  <div class="legend"><span class="dot"></span> orderTotal</div>
+</div>
+
+<div class="donuts">
+  <div class="card">
+    <div class="donut-title">Platform Sales Distribution</div>
+    <svg viewBox="-120 -120 240 240">
+      <ng-container *ngFor="let a of donutArcs(valueDist()); index as i">
+        <path [attr.d]="a.d" [attr.class]="'slice c' + i"></path>
+        <ng-container *ngIf="a.percent >= 3">
+          <text [attr.x]="a.tx" [attr.y]="a.ty" text-anchor="middle"
+                dominant-baseline="middle" class="pct">{{ a.percent | number:'1.0-1' }}%</text>
+        </ng-container>
+      </ng-container>
+      <circle r="64" fill="white"></circle>
+    </svg>
+    <ul class="legend">
+      <li *ngFor="let s of valueDist(); index as i">
+        <span class="dot" [style.background]="legendColors[i]"></span>
+        {{ s.label }} <b>{{ s.percent }}%</b>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="donut-title">Platform Count Distribution</div>
+    <svg viewBox="-120 -120 240 240">
+      <ng-container *ngFor="let a of donutArcs(countDist()); index as i">
+        <path [attr.d]="a.d" [attr.class]="'slice c' + i"></path>
+        <ng-container *ngIf="a.percent >= 3">
+          <text [attr.x]="a.tx" [attr.y]="a.ty" text-anchor="middle"
+                dominant-baseline="middle" class="pct">{{ a.percent | number:'1.0-1' }}%</text>
+        </ng-container>
+      </ng-container>
+      <circle r="64" fill="white"></circle>
+    </svg>
+    <ul class="legend">
+      <li *ngFor="let s of countDist(); index as i">
+        <span class="dot" [style.background]="legendColors[i]"></span>
+        {{ s.label }} <b>{{ s.percent }}%</b>
+      </li>
+    </ul>
+  </div>
+</div>

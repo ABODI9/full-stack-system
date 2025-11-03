@@ -1,0 +1,83 @@
+<div class="login-hero">
+  <!-- LEFT SIDE -->
+  <div class="left">
+    <h1>TableWise ile</h1>
+    <h2>İşletmeniz Daha Akıllı</h2>
+
+    <section class="promo card">
+      <div class="promo-head">
+        <div class="badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12l8-8 1.5 6.5L19 12l-6.5 1.5L11 20 3 12z" fill="#ff6a6a"/>
+          </svg>
+        </div>
+        <div class="promo-meta">
+          <div class="meta-title">Yeni Kampanya</div>
+          <div class="promo-value">%20 İndirim</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress">
+          <div class="bar" style="width:78%"></div>
+        </div>
+        <div class="progress-meta">
+          <span>2 gün kaldı</span>
+          <span>78%</span>
+        </div>
+      </div>
+
+      <p class="promo-foot">Hafta sonu kampanyanız başarıyla devam ediyor</p>
+    </section>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="right">
+    <div class="panel card">
+      <div class="brand">
+        <div class="logo">
+          <!-- مربع بزاويا مستديرة مع شكل بسيط داخل -->
+          <div class="logo-sq">
+            <svg viewBox="0 0 64 64">
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#5b6cff"/>
+                  <stop offset="1" stop-color="#ff4ecd"/>
+                </linearGradient>
+              </defs>
+              <rect x="8" y="8" width="48" height="48" rx="10" fill="url(#g1)"/>
+              <path d="M24 22h16v8H24zM24 34h8v8h-8z" fill="#dff7ff" opacity=".85"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="brand-title">TableWise</h3>
+        <div class="brand-sub">Restoran Analitik Panosu</div>
+      </div>
+
+      <h2 class="panel-title">Hoş Geldiniz</h2>
+      <p class="panel-sub">Dashboard'a erişim için giriş yapın</p>
+
+      <div class="field">
+        <span class="icon">@</span>
+        <input class="input" placeholder="E-posta" [(ngModel)]="email" type="email">
+      </div>
+
+      <div class="field">
+        <span class="icon">🔒</span>
+        <input class="input" placeholder="Şifre" [(ngModel)]="password" [type]="showPw ? 'text' : 'password'">
+        <button type="button" class="eye" (click)="showPw=!showPw">👁️</button>
+      </div>
+
+      <button class="btn" (click)="submit()" [disabled]="loading">GİRİŞ YAP</button>
+
+      <a class="forgot" routerLink="/forgot">Şifremi Unuttum</a>
+
+      <p class="meta">
+        Hesabınız yok mu?
+        <a routerLink="/register">Kayıt ol</a>
+      </p>
+
+      <div class="error" *ngIf="error">{{error}}</div>
+    </div>
+  </div>
+</div>

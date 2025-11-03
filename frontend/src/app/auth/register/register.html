@@ -1,0 +1,26 @@
+<div class="card" style="max-width:520px;margin:40px auto">
+  <h2>إضافة مستخدم (Admin)</h2>
+
+  <ng-container *ngIf="isAdmin; else notAllowed">
+    <input class="input" placeholder="Name (اختياري)" [(ngModel)]="name">
+    <input class="input" placeholder="Email" [(ngModel)]="email" type="email">
+    <input class="input" placeholder="Password" [(ngModel)]="password" type="password">
+
+    <label style="display:block;margin-top:8px">Role</label>
+    <select class="input" [(ngModel)]="role">
+      <option value="manager">Manager (مدير متجر)</option>
+      <option value="admin">Admin (أدمن)</option>
+    </select>
+
+    <button class="btn" (click)="submit()" [disabled]="loading" style="width:100%;margin-top:8px">
+      Create User
+    </button>
+
+    <div style="color:#0a9b40;margin-top:8px" *ngIf="info">{{info}}</div>
+    <div style="color:#b91c1c;margin-top:8px" *ngIf="error">{{error}}</div>
+  </ng-container>
+
+  <ng-template #notAllowed>
+    <div style="color:#b91c1c">Only admins can access this page.</div>
+  </ng-template>
+</div>

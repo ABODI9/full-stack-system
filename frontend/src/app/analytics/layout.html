@@ -1,0 +1,26 @@
+<div class="analitik-grid">
+  <aside class="subnav card" [class.collapsed]="collapsed()">
+    <div class="subnav-head">
+      <span class="title" *ngIf="!collapsed()">Analytics</span>
+      <button class="toggle" (click)="toggle()" [attr.aria-label]="collapsed() ? 'Expand' : 'Collapse'">
+        {{ collapsed() ? '›' : '‹' }}
+      </button>
+    </div>
+
+    <nav class="links">
+      <a *ngFor="let p of pages"
+         [routerLink]="p.route"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }"
+         [title]="collapsed() ? p.label : null"
+         class="link">
+        <span class="idx" *ngIf="collapsed()">{{ p.idx }}</span>
+        <span class="label" *ngIf="!collapsed()">{{ p.label }}</span>
+      </a>
+    </nav>
+  </aside>
+
+  <section class="analitik-content">
+    <router-outlet></router-outlet>
+  </section>
+</div>

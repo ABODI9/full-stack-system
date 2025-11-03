@@ -1,0 +1,13 @@
+/* استايلات عامة */
+:root{
+  --primary:#1976d2;
+  --grad: linear-gradient(135deg,#6a00ff,#d500f9,#00c2ff);
+}
+html,body{height:100%;}
+body{margin:0;background:#f7f7fb;font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;}
+.container{padding:16px;}
+.card{background:#fff;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.06);padding:16px;}
+.btn{background:#5b7cff;color:#fff;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;}
+.input{padding:10px 12px;border:1px solid #e8e8ee;border-radius:10px;width:100%;}
+.table{width:100%;border-collapse:collapse;}
+.table th,.table td{padding:8px 12px;border-bottom:1px solid #eee;}
