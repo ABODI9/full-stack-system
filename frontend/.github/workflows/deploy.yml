@@ -2,32 +2,37 @@ name: 🚀 Deploy Angular App to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧩 Checkout code
+      - name: 🧩 Checkout
         uses: actions/checkout@v4
 
-      - name: 🧰 Setup Node.js
+      - name: 🧰 Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: 📦 Install dependencies
+      - name: 📦 Install deps (frontend)
         run: npm ci
         working-directory: frontend
 
-      - name: 🏗️ Build Angular app
+      - name: 🏗️ Build Angular (prod)
         run: npm run build -- --configuration production --base-href "/full-stack-system/"
         working-directory: frontend
 
-      - name: 🚀 Deploy to GitHub Pages
+      # اختياري: انسخ index.html إلى 404.html عشانRouting يعمل على GH Pages
+      - name: 🔁 Copy index.html to 404.html
+        run: cp dist/frontend/index.html dist/frontend/404.html
+        working-directory: frontend
+
+      - name: 🚀 Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: frontend/dist/frontend
+          enable_jekyll: false
