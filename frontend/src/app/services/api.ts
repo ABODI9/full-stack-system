@@ -4,11 +4,12 @@ import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Summary } from '../models/summary';
 import { RecordItem } from '../models/record';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private http = inject(HttpClient);
-  private base = '/api';
+  private base = environment.apiBase;
 
   // ---------- Global date range ----------
   private readonly _range = signal(this.lastNDays(7)); // default: last 7 days

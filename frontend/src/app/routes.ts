@@ -23,6 +23,9 @@ import { SettingsComponent } from './pages/settings/settings';
 
 import { authGuard } from './guards/auth-guard';
 import { GenieInsightsComponent } from './pages/genie-insights/genie-insights';
+import { HealthTestComponent } from './pages/shared/health-test/health-test';
+
+
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -55,7 +58,11 @@ export const routes: Routes = [
       { path: 'settings',    component: SettingsComponent },
 
       { path: 'costs', component: CostsComponent },
+      
       { path: 'genie-insights', component: GenieInsightsComponent },
+    
+          { path: 'health-test', component: HealthTestComponent },
+
     ] 
   },
 
