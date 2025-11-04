@@ -29,10 +29,6 @@ export class Register {
       return;
     }
     this.loading = true;
-    this.auth.register({ name: this.name, email: this.email, password: this.password })
-      .subscribe({
-        next: () => this.router.navigateByUrl('/analytics/home'),
-        error: (e: any) => { this.error = e?.error?.error ?? 'Failed'; this.loading = false; }
-      });
+   
   }
 }

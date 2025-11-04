@@ -34,7 +34,6 @@ export const routes: Routes = [
   {
     path: '',
     component: ShellComponent,
-    canActivate: [authGuard],
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'analytics' },
 
