@@ -8,6 +8,13 @@ import { makePasswordSig, validatePasswordBasic } from '../utils/password';
 
 const router = Router();
 
+/* ===================== Schemas ===================== */
+const publicRegisterSchema = z.object({
+  name: z.string().min(2).optional(),
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
@@ -20,10 +27,50 @@ const adminCreateSchema = z.object({
   role: z.enum(['admin', 'manager']).optional().default('manager'),
 });
 
-// الحد الأقصى لتكرار نفس كلمة السر
 const MAX_PW_REUSE = 3;
 
-/** POST /api/auth/login */
+/* ============== Public: POST /api/auth/register ============== */
+router.post('/register', async (req, res, next) => {
+  try {
+    const { name, email, password } = publicRegisterSchema.parse(req.body);
+
+    const exist = await prisma.user.findUnique({ where: { email } });
+    if (exist) return res.status(409).json({ error: 'Email already exists' });
+
+    const pwErr = validatePasswordBasic(password);
+    if (pwErr) return res.status(400).json({ error: pwErr });
+
+    const sig = makePasswordSig(password);
+    const reuseCount = await prisma.user.count({ where: { passwordSig: sig } });
+    if (reuseCount >= MAX_PW_REUSE) {
+      return res.status(400).json({ error: 'This password is used too many times. Please choose another.' });
+    }
+
+    const hashed = await bcrypt.hash(password, Number(process.env.BCRYPT_COST ?? 10));
+    const user = await prisma.user.create({
+      data: {
+        name: name ?? email.split('@')[0],
+        email,
+        password: hashed,
+        passwordSig: sig,
+        role: 'user', // تأكد enum في Prisma فيه 'user'
+      },
+    });
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET!,
+      { expiresIn: '7d' }
+    );
+
+    res.status(201).json({
+      token,
+      user: { id: user.id, email: user.email, name: user.name, role: user.role, createdAt: user.createdAt },
+    });
+  } catch (e) { next(e); }
+});
+
+/* ===================== POST /api/auth/login ===================== */
 router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = loginSchema.parse(req.body);
@@ -46,7 +93,7 @@ router.post('/login', async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/** GET /api/auth/me */
+/* ===================== GET /api/auth/me ===================== */
 router.get('/me', auth, async (req, res) => {
   const me = await prisma.user.findUnique({
     where: { id: (req as any).user.id },
@@ -56,20 +103,17 @@ router.get('/me', auth, async (req, res) => {
   res.json(me);
 });
 
-/** POST /api/auth/admin/users (Admin only) */
+/* ============== Admin: POST /api/auth/admin/users ============== */
 router.post('/admin/users', auth, requireAdmin, async (req, res, next) => {
   try {
     const { name, email, password, role } = adminCreateSchema.parse(req.body);
 
-    // Email unique check
     const exist = await prisma.user.findUnique({ where: { email } });
     if (exist) return res.status(409).json({ error: 'Email already exists' });
 
-    // Password rules
     const pwErr = validatePasswordBasic(password);
     if (pwErr) return res.status(400).json({ error: pwErr });
 
-    // Reuse limit
     const sig = makePasswordSig(password);
     const reuseCount = await prisma.user.count({ where: { passwordSig: sig } });
     if (reuseCount >= MAX_PW_REUSE) {
@@ -92,7 +136,7 @@ router.post('/admin/users', auth, requireAdmin, async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/** POST /api/auth/change-password */
+/* ============== POST /api/auth/change-password ============== */
 router.post('/change-password', auth, async (req, res, next) => {
   try {
     const schema = z.object({

@@ -1,26 +1,21 @@
 <div class="card" style="max-width:520px;margin:40px auto">
-  <h2>إضافة مستخدم (Admin)</h2>
+  <h2>Hesap Oluştur</h2>
 
-  <ng-container *ngIf="isAdmin; else notAllowed">
-    <input class="input" placeholder="Name (اختياري)" [(ngModel)]="name">
-    <input class="input" placeholder="Email" [(ngModel)]="email" type="email">
-    <input class="input" placeholder="Password" [(ngModel)]="password" type="password">
+  <div class="field">
+    <input class="input" placeholder="İsim (opsiyonel)" [(ngModel)]="name" name="name">
+  </div>
 
-    <label style="display:block;margin-top:8px">Role</label>
-    <select class="input" [(ngModel)]="role">
-      <option value="manager">Manager (مدير متجر)</option>
-      <option value="admin">Admin (أدمن)</option>
-    </select>
+  <div class="field">
+    <input class="input" type="email" placeholder="E-posta" [(ngModel)]="email" name="email" required>
+  </div>
 
-    <button class="btn" (click)="submit()" [disabled]="loading" style="width:100%;margin-top:8px">
-      Create User
-    </button>
+  <div class="field">
+    <input class="input" [type]="showPw ? 'text' : 'password'" placeholder="Şifre (min 6)" [(ngModel)]="password" name="password" required minlength="6">
+    <button type="button" class="eye" (click)="showPw=!showPw">👁️</button>
+  </div>
 
-    <div style="color:#0a9b40;margin-top:8px" *ngIf="info">{{info}}</div>
-    <div style="color:#b91c1c;margin-top:8px" *ngIf="error">{{error}}</div>
-  </ng-container>
+  <button class="btn" (click)="submit()" [disabled]="loading">KAYIT OL</button>
 
-  <ng-template #notAllowed>
-    <div style="color:#b91c1c">Only admins can access this page.</div>
-  </ng-template>
+  <p class="meta">Zaten hesabın var mı? <a routerLink="/login">Giriş yap</a></p>
+  <div class="error" *ngIf="error">{{ error }}</div>
 </div>

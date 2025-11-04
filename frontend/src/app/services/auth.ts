@@ -14,7 +14,7 @@ export type User = {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
-  private base = `${environment.apiBase}/auth`; // 👈 استخدم environment فقط
+  private base = `${environment.apiBase}/auth`;
 
   login(email: string, password: string) {
     return this.http
@@ -28,10 +28,24 @@ export class AuthService {
       );
   }
 
+  /** Public Signup */
+  register(data: { name?: string; email: string; password: string }) {
+    return this.http
+      .post<{ token: string; user: User }>(`${this.base}/register`, data)
+      .pipe(
+        tap(res => {
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('user_name', res.user.name ?? '');
+          localStorage.setItem('user_email', res.user.email);
+        })
+      );
+  }
+
   me() {
     return this.http.get<User>(`${this.base}/me`);
   }
 
+  /** Admin create user */
   createUser(data: { name?: string; email: string; password: string; role?: 'admin' | 'manager' }) {
     return this.http.post<User>(`${this.base}/admin/users`, data);
   }
