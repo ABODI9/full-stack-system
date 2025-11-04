@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBase: '/api'
+  apiBase: 'https://full-stack-system-production.up.railway.app/api'
 };

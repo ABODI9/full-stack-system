@@ -26,6 +26,11 @@ app.use(cors({
 app.use(morgan('dev'));
 app.use(express.json());
 
+
+app.set('trust proxy', 1);           // ← خلف بروكسي (Railway)
+app.options('*', cors());            // ← يدعم طلبات OPTIONS التمهيدية
+
+
 // API routes
 app.use('/api/auth', authRouter);
 app.use('/api/costs', costsRouter);
