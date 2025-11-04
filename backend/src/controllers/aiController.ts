@@ -1,5 +1,5 @@
 import { prisma } from '../prisma';
-import fetch from 'node-fetch'; // نضمن fetch + الأنواع في Node
+ // نضمن fetch + الأنواع في Node
 
 type AskOptions = {
   userId: number;
