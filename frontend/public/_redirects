@@ -1,2 +1,2 @@
-/api/*  https://<service-name>.up.railway.app/api/:splat  200
-/*      /index.html                                      200
+/api/* https://full-stack-system-production.up.railway.app/api/:splat 200
+/*     /index.html 200
